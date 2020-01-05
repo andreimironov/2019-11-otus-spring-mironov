@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="inputService" class="com.andreimironov.homework_1.service.impl.InputServiceImpl"
+          destroy-method="onDestroy" init-method="onInit">
+        <constructor-arg name="outputService" ref="outputService"/>
+    </bean>
+    <bean id="outputService" class="com.andreimironov.homework_1.service.impl.OutputServiceImpl"/>
+    <bean id="questionsService" class="com.andreimironov.homework_1.service.impl.QuestionsServiceImpl">
+        <constructor-arg name="questionsPath" value="questions.csv"/>
+    </bean>
+    <bean id="validationService" class="com.andreimironov.homework_1.service.impl.ValidationServiceImpl"/>
+</beans>
