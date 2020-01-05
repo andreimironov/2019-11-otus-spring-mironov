@@ -1,6 +1,6 @@
-Id, Question, Answer
-1, How many bits does int contain in java?, 32
-2, How many bits does long contain in java?, 64
-3, Compute 7 << 1, 14
-4, Compute 7 ^ 5, 2
-5, Compute -7 >>> 31, 1
+Id,Question,Answer
+1,How many bits does int contain in java?,32
+2,How many bits does long contain in java?,64
+3,Compute 7 << 1,14
+4,Compute 7 ^ 5,2
+5,Compute -7 >>> 31,1

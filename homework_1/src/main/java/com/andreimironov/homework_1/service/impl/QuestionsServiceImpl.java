@@ -27,26 +27,30 @@ public class QuestionsServiceImpl implements QuestionsService {
     @Override
     public List<Question> getQuestions() {
         try {
-            CSVReader csvReader = getCsvReader();
+            BufferedReader reader = getBufferedReader();
+            CSVReader csvReader = getCsvReader(reader);
             return csvReader.readAll()
                             .stream()
                             .map(Utils::getQuestionFromCsvLine)
-                            .sorted(Comparator.comparing(Question::getId, Comparator.nullsFirst(Integer::compareTo)))
+                            .sorted(Comparator.comparing(Question::getId, Comparator.nullsFirst(Integer::compareTo))
+                                              .thenComparing(Question::getQuestion))
                             .collect(Collectors.toList());
         } catch (URISyntaxException | IOException e) {
             return Collections.emptyList();
         }
     }
 
-    private CSVReader getCsvReader() throws URISyntaxException, IOException {
+    private BufferedReader getBufferedReader() throws IOException, URISyntaxException {
         Path questionsPath = Paths.get(ClassLoader.getSystemResource(this.questionsPath).toURI());
-        BufferedReader questionsBufferedReader = Files.newBufferedReader(questionsPath);
+        return Files.newBufferedReader(questionsPath);
+    }
+
+    private CSVReader getCsvReader(BufferedReader reader) {
         CSVParser csvParser = new CSVParserBuilder().withSeparator(',')
                                                     .withIgnoreQuotations(true)
                                                     .build();
-
-        return new CSVReaderBuilder(questionsBufferedReader).withSkipLines(1)
-                                                            .withCSVParser(csvParser)
-                                                            .build();
+        return new CSVReaderBuilder(reader).withSkipLines(1)
+                                           .withCSVParser(csvParser)
+                                           .build();
     }
 }
