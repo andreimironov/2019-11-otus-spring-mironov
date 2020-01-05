@@ -20,12 +20,15 @@ public class Main {
         QuestionsService questionsService = context.getBean(QuestionsService.class);
         ValidationService validationService = context.getBean(ValidationService.class);
 
+        List<Question> questions = questionsService.getQuestions();
+
         outputService.showHelloMessage();
         UserInfo userInfo = inputService.getUserInfo();
         outputService.showStartMessage(userInfo);
-        List<Question> questions = questionsService.getQuestions();
+
         Map<Question, String> userAnswers = inputService.getUserAnswers(questions);
         Map<Question, Boolean> result = validationService.getResult(userAnswers);
+
         outputService.showSummation(userInfo, questions, userAnswers, result);
     }
 }

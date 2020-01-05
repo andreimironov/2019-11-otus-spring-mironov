@@ -8,16 +8,15 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -25,27 +24,26 @@ public class QuestionsServiceImpl implements QuestionsService {
     private final String questionsPath;
 
     @Override
+    @SneakyThrows(IOException.class)
     public List<Question> getQuestions() {
-        try {
-            BufferedReader reader = getBufferedReader();
+            Reader reader = getReader();
             CSVReader csvReader = getCsvReader(reader);
+
             return csvReader.readAll()
                             .stream()
                             .map(Utils::getQuestionFromCsvLine)
+                            .filter(Objects::nonNull)
                             .sorted(Comparator.comparing(Question::getId, Comparator.nullsFirst(Integer::compareTo))
                                               .thenComparing(Question::getQuestion))
                             .collect(Collectors.toList());
-        } catch (URISyntaxException | IOException e) {
-            return Collections.emptyList();
-        }
     }
 
-    private BufferedReader getBufferedReader() throws IOException, URISyntaxException {
-        Path questionsPath = Paths.get(ClassLoader.getSystemResource(this.questionsPath).toURI());
-        return Files.newBufferedReader(questionsPath);
+    private Reader getReader() {
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(this.questionsPath);
+        return new InputStreamReader(Objects.requireNonNull(inputStream));
     }
 
-    private CSVReader getCsvReader(BufferedReader reader) {
+    private CSVReader getCsvReader(Reader reader) {
         CSVParser csvParser = new CSVParserBuilder().withSeparator(',')
                                                     .withIgnoreQuotations(true)
                                                     .build();
