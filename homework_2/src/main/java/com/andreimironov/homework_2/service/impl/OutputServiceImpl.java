@@ -5,19 +5,17 @@ import com.andreimironov.homework_2.domain.Question;
 import com.andreimironov.homework_2.domain.UserInfo;
 import com.andreimironov.homework_2.service.OutputService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class OutputServiceImpl implements OutputService {
-    private final MessageSource messageSource;
     private final LocaleHolder localeHolder;
+    private final MessageSource messageSource;
 
     @Override
     public void showHelloMessage() {

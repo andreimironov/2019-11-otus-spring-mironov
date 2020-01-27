@@ -8,8 +8,8 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +23,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class QuestionsServiceImpl implements QuestionsService {
-    private final String questionsPath;
-
-    public QuestionsServiceImpl(@Autowired LocaleHolder localeHolder, @Autowired MessageSource messageSource) {
-        this.questionsPath = messageSource.getMessage("questions.path", null, localeHolder.getCurrentLocale());
-    }
+    private final LocaleHolder localeHolder;
+    private final MessageSource messageSource;
 
     @Override
     @SneakyThrows(IOException.class)
@@ -46,7 +44,8 @@ public class QuestionsServiceImpl implements QuestionsService {
     }
 
     private Reader getReader() {
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(this.questionsPath);
+        String questionsPath = messageSource.getMessage("questions.path", null, localeHolder.getCurrentLocale());
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(questionsPath);
         return new InputStreamReader(Objects.requireNonNull(inputStream));
     }
 
