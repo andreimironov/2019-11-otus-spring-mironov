@@ -1,7 +1,7 @@
 package com.andreimironov.homework_2.service.impl;
 
 import com.andreimironov.homework_2.Utils;
-import com.andreimironov.homework_2.component.LocaleHolder;
+import com.andreimironov.homework_2.bean.PropertiesHolder;
 import com.andreimironov.homework_2.domain.Question;
 import com.andreimironov.homework_2.service.QuestionsService;
 import com.opencsv.CSVParser;
@@ -10,7 +10,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,8 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class QuestionsServiceImpl implements QuestionsService {
-    private final LocaleHolder localeHolder;
-    private final MessageSource messageSource;
+    private final PropertiesHolder propertiesHolder;
 
     @Override
     @SneakyThrows(IOException.class)
@@ -44,7 +42,7 @@ public class QuestionsServiceImpl implements QuestionsService {
     }
 
     private Reader getReader() {
-        String questionsPath = messageSource.getMessage("questions.path", null, localeHolder.getCurrentLocale());
+        String questionsPath = propertiesHolder.getQuestionsPath();
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(questionsPath);
         return new InputStreamReader(Objects.requireNonNull(inputStream));
     }

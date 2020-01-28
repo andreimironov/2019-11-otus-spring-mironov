@@ -1,14 +1,11 @@
 package com.andreimironov.homework_2.service.impl;
 
-import com.andreimironov.homework_2.component.LocaleHolder;
+import com.andreimironov.homework_2.bean.PropertiesHolder;
 import com.andreimironov.homework_2.domain.Question;
 import com.andreimironov.homework_2.service.QuestionsService;
-import org.apache.logging.log4j.message.Message;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.springframework.context.MessageSource;
 
 import java.util.List;
 import java.util.Locale;
@@ -16,10 +13,10 @@ import java.util.Locale;
 public class QuestionsServiceImplTest {
     @Test
     public void testGetQuestions() {
-        LocaleHolder localeHolder = new LocaleHolder(Locale.ENGLISH);
-        MessageSource messageSource = Mockito.mock(MessageSource.class);
-        Mockito.when(messageSource.getMessage("questions.path", null, localeHolder.getCurrentLocale())).thenReturn("questions_en.csv");
-        QuestionsService questionsService = new QuestionsServiceImpl(localeHolder, messageSource);
+        PropertiesHolder propertiesHolder = Mockito.mock(PropertiesHolder.class);
+        Mockito.when(propertiesHolder.getCurrentLocale()).thenReturn(Locale.ENGLISH);
+        Mockito.when(propertiesHolder.getQuestionsPath()).thenReturn("questions_en_EN.csv");
+        QuestionsService questionsService = new QuestionsServiceImpl(propertiesHolder);
 
         List<Question> questions = questionsService.getQuestions();
         Assertions.assertThat(questions).containsExactly(
