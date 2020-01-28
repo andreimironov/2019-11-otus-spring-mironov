@@ -88,9 +88,22 @@ public class OutputServiceImpl implements OutputService {
                 propertiesHolder.getCurrentLocale());
         System.out.println(resultMessage);
 
+        if (rightAnswers >= propertiesHolder.getValueToPassTheTest()) showPassTheTestMessage();
+        else showFailTheTestMessage();
+
         String buyMessage = messageSource
                 .getMessage("buy", new Object[]{userInfo.getName(), userInfo.getSurName()}, propertiesHolder.getCurrentLocale());
         System.out.println(buyMessage);
+    }
+
+    private void showPassTheTestMessage() {
+        String passTheTestMessage = messageSource.getMessage("passTheTest", null, propertiesHolder.getCurrentLocale());
+        System.out.println(passTheTestMessage);
+    }
+
+    private void showFailTheTestMessage() {
+        String failTheTestMessage = messageSource.getMessage("failTheTest", null, propertiesHolder.getCurrentLocale());
+        System.out.println(failTheTestMessage);
     }
 
     private void showDelimeter() {

@@ -35,6 +35,7 @@ public class Config {
     public PropertiesHolder propertiesHolder() {
         Locale currentLocale = environment.getProperty("locales.current", Locale.class);
         String questionsPath = environment.getProperty("locales." + currentLocale.toString() + ".questionsPath");
-        return new PropertiesHolder(currentLocale, questionsPath);
+        long valueToPassTheTest = environment.getProperty("valueToPassTheTest", Long.class);
+        return new PropertiesHolder(currentLocale, questionsPath, valueToPassTheTest);
     }
 }
