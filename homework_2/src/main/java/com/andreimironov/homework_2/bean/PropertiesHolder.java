@@ -8,5 +8,5 @@ import java.util.Locale;
 public class PropertiesHolder {
     private final Locale currentLocale;
     private final String questionsPath;
-    private final long valueToPassTheTest;
+    private final Long valueToPassTheTest;
 }
