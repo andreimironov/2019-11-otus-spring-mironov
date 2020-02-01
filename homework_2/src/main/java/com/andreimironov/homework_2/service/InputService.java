@@ -9,6 +9,4 @@ import java.util.Map;
 public interface InputService {
     UserInfo getUserInfo();
     Map<Question, String> getUserAnswers(List<Question> questions);
-    void onInit();
-    void onDestroy();
 }

@@ -8,6 +8,7 @@ import com.andreimironov.homework_2.service.QuestionsService;
 import com.andreimironov.homework_2.service.ValidationService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.support.AbstractApplicationContext;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ import java.util.Map;
 @ComponentScan
 public class Main {
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
+        AbstractApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
 
         InputService inputService = context.getBean(InputService.class);
         OutputService outputService = context.getBean(OutputService.class);
@@ -31,5 +32,7 @@ public class Main {
         Map<Question, Boolean> result = validationService.getResult(userAnswers);
 
         outputService.showSummation(userInfo, questions, userAnswers, result);
+
+        context.close();
     }
 }
