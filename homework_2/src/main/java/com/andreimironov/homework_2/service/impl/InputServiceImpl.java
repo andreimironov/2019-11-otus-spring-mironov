@@ -43,13 +43,11 @@ public class InputServiceImpl implements InputService {
 
     @PostConstruct
     public void postConstruct() {
-        System.out.println("postConstruct");
         scanner.useDelimiter("\n");
     }
 
     @PreDestroy
     public void preDestroy() {
-        System.out.println("preDestroy");
         scanner.close();
     }
 }
