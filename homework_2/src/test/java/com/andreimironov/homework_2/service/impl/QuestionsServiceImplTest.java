@@ -4,6 +4,7 @@ import com.andreimironov.homework_2.bean.PropertiesHolder;
 import com.andreimironov.homework_2.domain.Question;
 import com.andreimironov.homework_2.service.QuestionsService;
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -11,13 +12,18 @@ import java.util.List;
 import java.util.Locale;
 
 public class QuestionsServiceImplTest {
-    @Test
-    public void testGetQuestions() {
+    private QuestionsService questionsService;
+
+    @Before
+    public void init() {
         PropertiesHolder propertiesHolder = Mockito.mock(PropertiesHolder.class);
         Mockito.when(propertiesHolder.getCurrentLocale()).thenReturn(Locale.ENGLISH);
-        Mockito.when(propertiesHolder.getQuestionsPath()).thenReturn("questions_en_EN.csv");
-        QuestionsService questionsService = new QuestionsServiceImpl(propertiesHolder);
+        Mockito.when(propertiesHolder.getQuestionsPath()).thenReturn("questions_en_US.csv");
+        questionsService = new QuestionsServiceImpl(propertiesHolder);
+    }
 
+    @Test
+    public void testGetQuestions() {
         List<Question> questions = questionsService.getQuestions();
         Assertions.assertThat(questions).containsExactly(
                 Question.builder().id(null).question("q2").answer("a2").build(),
